@@ -9,6 +9,20 @@
 *{
   font-family: Outfit;
 }
+@keyframes fade-in {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
 
 @layer base{
   html{

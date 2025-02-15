@@ -1,11 +1,23 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-//  Function to connect to the database
+dotenv.config(); // Load environment variables from .env file
 
 const connectDB = async () => {
-  mongoose.connection.on('connected',()=> console.log('datbase connected'))
+    try {
+        const uri = process.env.MONGO_URI; // Get MongoDB URI from .env file
+        if (!uri) {
+            throw new Error("MONGO_URI is missing in .env file");
+        }
+        const conn = await mongoose.connect(uri, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+    } catch (error) {
+        console.error(`❌ MongoDB Connection Error: ${error.message}`);
+        process.exit(1);
+    }
+};
 
-  await mongoose.connect(`${process.env.MONGODB_URI}/job-portal`)
-}
-
-export default connectDB
+export default connectDB;

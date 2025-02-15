@@ -2,17 +2,21 @@ import React from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { assets } from '../assets/assets'
 
+import logo_image from "../assets/logo_image.png"
+import Navbar from '../components/Navbar'
+
 const Dashboard = () => {
 
   const navigate = useNavigate()
 
   return (
+    
     <div className='min-h-screen '>
       
       {/* navbar for recruiter panel */}
       <div className='shadow py-4'>
         <div className='px-5 flex justify-between items-center'>
-          <img onClick={e=>navigate('/')} className='max-sm:w-32 cursor-pointer' src={assets.logo} alt="" />
+          <img onClick={e=>navigate('/')} className='max-sm:w-32 cursor-pointer h-14' src={logo_image}  alt="" />
           
           <div className='flex items-center gap-3'>
             <p className='max-sm:hidden'>Welcome</p>
