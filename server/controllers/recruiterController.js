@@ -1,49 +1,36 @@
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import Recruiter from "../models/recruiterModel.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
-const createToken = (id) => {
-    return jwt.sign({ id, role: "recruiter" }, process.env.JWT_SECRET, { expiresIn: "1h" });
-};
-export const recruiterRegister = async (req, res) => {
-    try {
-        const { name, email, password } = req.body;
+export const registerRecruiter = async (req, res) => {
+  try {
+    const { companyName, email, password } = req.body;
+    const recruiterExists = await Recruiter.findOne({ email });
 
-        const recruiterExists = await Recruiter.findOne({ email });
-        if (recruiterExists) return res.status(400).json({ message: "Recruiter already exists" });
+    if (recruiterExists) return res.status(400).json({ message: "Recruiter already exists" });
 
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
+    const recruiter = await Recruiter.create({ companyName, email, password });
 
-        const newRecruiter = await Recruiter.create({
-            name,
-            email,
-            password: hashedPassword,
-        });
-
-        const token = createToken(newRecruiter._id);
-
-        res.status(201).json({ success: true, token });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+    res.status(201).json({ message: "Recruiter registered successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
-// Recruiter Login
-export const recruiterLogin = async (req, res) => {
-    try {
-        const { email, password } = req.body;
+export const loginRecruiter = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const recruiter = await Recruiter.findOne({ email });
 
-        const recruiter = await Recruiter.findOne({ email });
-        if (!recruiter) return res.status(400).json({ message: "Recruiter not found" });
+    if (!recruiter) return res.status(400).json({ message: "Recruiter not found" });
 
-        const isMatch = await bcrypt.compare(password, recruiter.password);
-        if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+    const isMatch = await bcrypt.compare(password, recruiter.password);
+    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
-        const token = createToken(recruiter._id);
+    const token = jwt.sign({ id: recruiter._id, role: "recruiter" }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
-        res.json({ success: true, token });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+    res.status(200).json({ message: "Login successful", token, role: "recruiter" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
 };

@@ -20,7 +20,7 @@ const AppContextProvider = ({ children }) => {
         searchFilter, setSearchFilter, 
         isSearched, setIsSearched, 
         jobs, setJobs, 
-        showRecruiterLogin, setShowRecruiterLogin
+        showRecruiterLogin, setShowRecruiterLogin,
       }}
     >
       {children}

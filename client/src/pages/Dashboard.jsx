@@ -3,7 +3,6 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { assets } from '../assets/assets'
 
 import logo_image from "../assets/logo_image.png"
-import Navbar from '../components/Navbar'
 
 const Dashboard = () => {
 
