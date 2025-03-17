@@ -61,7 +61,6 @@ const Navbar = () => {
         localStorage.setItem("authToken", data.token);
         localStorage.setItem("userRole", isRecruiter ? "recruiter" : "user");
         handleClose();
-        navigate("/dashboard");
       } else {
         alert("Sign Up Successful! Please log in.");
         setIsSignUp(false);

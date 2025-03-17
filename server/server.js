@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGO_URI, {
 }).then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 
-app.use("/api/user", userRoutes);
+app.use("/api/auth", userRoutes);
 app.use("/api/recruiter", recruiterRoutes);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

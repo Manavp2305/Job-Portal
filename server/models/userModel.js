@@ -1,15 +1,10 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
 
-const userSchema = new mongoose.Schema({
-  fullName: { type: String, required: true },
+const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-}, { timestamps: true });
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
+  otp: { type: String, default: null },
+  otpExpires: { type: Date, default: null },
+  isVerified: { type: Boolean, default: false },
 });
-
-export default mongoose.model("User", userSchema);
+export const User = mongoose.model("User", UserSchema);
