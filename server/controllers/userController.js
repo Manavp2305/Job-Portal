@@ -52,7 +52,7 @@ export const registerUser = async (req, res) => {
 
     res.status(200).json({ message: "OTP sent to email. Please verify." });
   } catch (error) {
-    console.error("❌ Register Error:", error.message);
+    console.error(" Register Error:", error.message);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
@@ -105,7 +105,7 @@ export const resendOtp = async (req, res) => {
     await sendOtpEmail(email, otp);
     res.json({ message: "New OTP sent to email." });
   } catch (error) {
-    console.error("❌ Resend OTP Error:", error.message);
+    console.error(" Resend OTP Error:", error.message);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
