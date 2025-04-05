@@ -1,25 +1,43 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import mongoose from "mongoose";
-import userRoutes from "./routes/userRoutes.js";
-import recruiterRoutes from "./routes/recruiterRoutes.js";
+import dotenv from "dotenv";
+import applicationRoutes from "./routes/applicationRoutes.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(express.json());
+// ✅ Get directory paths
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// ✅ Middleware
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => console.log("MongoDB connected"))
-  .catch(err => console.log(err));
+// ✅ Serve uploaded files publicly
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-app.use("/api/auth", userRoutes);
-app.use("/api/recruiter", recruiterRoutes);
+// ✅ API Routes
+app.use("/api/applications", applicationRoutes);
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// ✅ Default Route (For Debugging)
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
+
+// ✅ Connect to MongoDB
+mongoose
+  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch((error) => console.error("❌ MongoDB Connection Error:", error));
+
+// ✅ Start Server
+app.listen(PORT, () => {
+  console.log(`✅ Server running on http://localhost:${PORT}`);
+});
