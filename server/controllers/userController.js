@@ -58,6 +58,7 @@ export const registerUser = async (req, res) => {
 };
 export const verifyOtp = async (req, res) => {
   const { email, otp } = req.body;
+  console.log("🔍 Incoming email:", email, "OTP:", otp); // Debug
 
   try {
     const user = await User.findOne({ email });
@@ -66,13 +67,16 @@ export const verifyOtp = async (req, res) => {
       return res.status(400).json({ message: "User not found" });
     }
 
-    if (!user.otp || user.otp !== otp) {
+    console.log("📦 Stored OTP:", user.otp); // Debug
+
+    if (!user.otp || user.otp.toString() !== otp.toString()) {
       return res.status(400).json({ message: "Invalid OTP" });
     }
 
     if (moment().isAfter(user.otpExpires)) {
       return res.status(400).json({ message: "OTP expired. Please request a new one." });
     }
+
     user.isVerified = true;
     user.otp = null;
     user.otpExpires = null;
@@ -85,6 +89,8 @@ export const verifyOtp = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+
 export const resendOtp = async (req, res) => {
   const { email } = req.body;
 

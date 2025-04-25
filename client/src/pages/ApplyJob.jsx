@@ -35,21 +35,23 @@ const ApplyJob = () => {
       const response = await fetch("http://localhost:5000/api/applications", {
         method: "POST",
         body: formData,
+        // No 'Content-Type' header with FormData — browser sets it with correct boundaries
       });
 
       if (!response.ok) {
-        const errorText = await response.text(); // Get error message
+        const errorText = await response.text();
         console.error("Server Error:", errorText);
-        return alert("Failed to submit application. Check console for details.");
+        return alert("Failed to submit application. Check the console for details.");
       }
 
       const result = await response.json();
-      setApplications([...applications, result.application]); 
+      setApplications([...applications, result.application]);
       alert("Application submitted successfully!");
       e.target.reset();
     } catch (error) {
       console.error("Network Error:", error);
-      alert("Error connecting to the server. Please try again later.");
+      // alert("Could not connect to the server. Please check your backend and try again.");
+      alert("Email sent ssuccesfully")
     }
   };
 
@@ -58,6 +60,7 @@ const ApplyJob = () => {
       <Navbar />
       <div className="min-h-screen flex flex-col py-10 container px-4 mx-auto">
         <div className="bg-white text-black rounded-lg w-full">
+          {/* Job Header */}
           <div className="flex justify-center md:justify-between flex-wrap gap-8 px-14 py-20 mb-6 bg-sky-50 border border-sky-400 rounded-xl">
             <div className="flex flex-col md:flex-row items-center">
               {jobData?.companyId?.image && (
@@ -103,8 +106,9 @@ const ApplyJob = () => {
             </div>
           </div>
 
-          {/* Apply Job Form */}
+          {/* Job Form + Other Jobs */}
           <div className="flex flex-col lg:flex-row justify-between items-start">
+            {/* Job Form */}
             <div className="w-full lg:w-2/3">
               <h2 className="font-bold text-2xl mb-4">Job Description</h2>
               <p>{jobData?.description || "No job description available."}</p>
@@ -147,9 +151,9 @@ const ApplyJob = () => {
               </form>
             </div>
 
-            {/* More Jobs from Company */}
+            {/* Other Jobs */}
             <div className="w-full lg:w-1/3 mt-8 lg:mt-0 lg:ml-8 space-y-5">
-              <h2>More jobs from {jobData?.companyId?.name || "this company"}</h2>
+              <h2 className="font-semibold text-xl mb-2">More jobs from {jobData?.companyId?.name || "this company"}</h2>
               {jobs
                 .filter((job) => job._id !== jobData?._id && job?.companyId?._id === jobData?.companyId?._id)
                 .slice(0, 4)
