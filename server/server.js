@@ -3,10 +3,13 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import applicationRoutes from "./routes/applicationRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
+
+// Import routes
+import applicationRoutes from "./routes/applicationRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import jobRoutes from "./routes/jobRoutes.js"; // Add the job routes here
 
 dotenv.config();
 
@@ -28,6 +31,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Routes
 app.use("/api/applications", applicationRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/jobs", jobRoutes); // Mount job routes here
 
 // Default route
 app.get("/", (req, res) => {

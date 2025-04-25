@@ -1,3 +1,4 @@
+// App.jsx
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
@@ -7,18 +8,26 @@ import Dashboard from "./pages/Dashboard";
 import Addjob from "./pages/Addjob";
 import ManageJobs from "./pages/ManageJobs";
 import ViewApplications from "./pages/ViewApplications";
-// import Navbar from "./components/Navbar";
-import "quill/dist/quill.snow.css";
+// import Navbar from "./components/Navbar"; // Uncomment if you have a Navbar component
+import "quill/dist/quill.snow.css"; // Ensure Quill's styles are imported for the editor
 
 const App = () => {
   return (
-    <> {/* ✅ Ensure this is the only Navbar rendering */}
+    <>
+      {/* ✅ Ensure this is the only Navbar rendering */}
+      {/* Uncomment below if you have a Navbar component */}
+      {/* <Navbar /> */}
+      
       <div className="app-container">
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/apply-job/:id" element={<ApplyJob />} />
           <Route path="/applications" element={<Applications />} />
+          
+          {/* Protected Routes (Dashboard, Add Job, Manage Jobs, View Applications) */}
           <Route path="/dashboard" element={<Dashboard />}>
+            {/* Nested routes under dashboard */}
             <Route path="add-job" element={<Addjob />} />
             <Route path="manage-jobs" element={<ManageJobs />} />
             <Route path="view-applications" element={<ViewApplications />} />
