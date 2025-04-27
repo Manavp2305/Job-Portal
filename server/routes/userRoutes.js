@@ -5,6 +5,7 @@ import {
   resendOtp,
   loginUser,
   protect,
+  logoutUser,
 } from "../controllers/userController.js";
 import { body } from "express-validator";
 
@@ -22,6 +23,7 @@ router.post(
 router.post("/verify-otp", verifyOtp);
 router.post("/resend-otp", resendOtp);
 router.post("/login", loginUser);
+router.post("/logout", logoutUser); 
 router.get("/profile", protect, (req, res) => {
   res.json({ message: "This is a protected route", user: req.user });
 });

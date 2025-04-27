@@ -42,7 +42,9 @@ const ApplyJob = () => {
       if (!response.ok) {
         const errorText = await response.text();
         console.error("Server Error:", errorText);
-        return alert("Failed to submit application. Check the console for details.");
+        return alert(
+          "Failed to submit application. Check the console for details."
+        );
       }
 
       const result = await response.json();
@@ -77,7 +79,9 @@ const ApplyJob = () => {
                 />
               )}
               <div className="text-center md:text-left text-neutral-700">
-                <h1 className="text-2xl sm:text-4xl font-medium">{jobData?.title || "Job Title"}</h1>
+                <h1 className="text-2xl sm:text-4xl font-medium">
+                  {jobData?.title || "Job Title"}
+                </h1>
                 <div className="flex flex-wrap gap-y-2 gap-6 items-center text-gray-600 mt-2">
                   {jobData?.companyId?.name && (
                     <span className="flex items-center gap-1">
@@ -108,7 +112,9 @@ const ApplyJob = () => {
             </div>
 
             <div className="text-end text-sm max-md:mx-auto max-md:text-center">
-              <p className="mt-1 text-gray-600">Posted {moment(jobData.date).fromNow()}</p>
+              <p className="mt-1 text-gray-600">
+                Posted {moment(jobData.date).fromNow()}
+              </p>
             </div>
           </div>
 
@@ -119,49 +125,81 @@ const ApplyJob = () => {
               <h2 className="font-bold text-2xl mb-4">Job Description</h2>
               <p>{jobData?.description || "No job description available."}</p>
 
-              <form onSubmit={handleApply} className="mt-10 bg-gray-100 p-6 rounded-lg shadow" encType="multipart/form-data">
-                <h2 className="text-xl font-semibold mb-4">Apply for this Job</h2>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Full Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    required
-                    className="w-full px-3 py-2 border rounded-lg"
-                    placeholder="Enter your full name"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    className="w-full px-3 py-2 border rounded-lg"
-                    placeholder="Enter your email"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700">Resume (PDF only)</label>
-                  <input
-                    type="file"
-                    name="resume"
-                    required
-                    accept="application/pdf"
-                    className="w-full px-3 py-2 border rounded-lg"
-                  />
-                </div>
-                <button type="submit" className="bg-blue-600 text-white px-5 py-2 rounded-lg">
-                  Submit Application
-                </button>
-              </form>
+              <form
+  onSubmit={handleApply}
+  className="mt-10 bg-gray-100 p-6 rounded-lg shadow"
+  encType="multipart/form-data"
+>
+  <h2 className="text-xl font-semibold mb-4">Apply for this Job</h2>
+  
+  {/* Form Fields */}
+  <div className="mb-4">
+    <label className="block text-gray-700">Full Name</label>
+    <input
+      type="text"
+      name="name"
+      required
+      className="w-full px-3 py-2 border rounded-lg"
+      placeholder="Enter your full name"
+    />
+  </div>
+  
+  <div className="mb-4">
+    <label className="block text-gray-700">Email</label>
+    <input
+      type="email"
+      name="email"
+      required
+      className="w-full px-3 py-2 border rounded-lg"
+      placeholder="Enter your email"
+    />
+  </div>
+  
+  <div className="mb-4">
+    <label className="block text-gray-700">Resume (PDF only)</label>
+    <input
+      type="file"
+      name="resume"
+      required
+      accept="application/pdf"
+      className="w-full px-3 py-2 border rounded-lg"
+    />
+  </div>
+
+  {/* Button Group */}
+  <div className="flex gap-4 mt-4">
+    {/* Submit Application Button */}
+    <button
+      type="submit"
+      className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold w-full md:w-auto hover:bg-blue-700 transition duration-300"
+    >
+      Submit Application
+    </button>
+
+    {/* View Application Button */}
+    <button
+      type="button"
+      onClick={() => navigate("/applications")}
+      className="bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold w-full md:w-auto hover:bg-gray-700 transition duration-300"
+    >
+      View Application
+    </button>
+  </div>
+</form>
+
             </div>
 
             {/* Other Jobs */}
             <div className="w-full lg:w-1/3 mt-8 lg:mt-0 lg:ml-8 space-y-5">
-              <h2 className="font-semibold text-xl mb-2">More jobs from {jobData?.companyId?.name || "this company"}</h2>
+              <h2 className="font-semibold text-xl mb-2">
+                More jobs from {jobData?.companyId?.name || "this company"}
+              </h2>
               {jobs
-                .filter((job) => job._id !== jobData?._id && job?.companyId?._id === jobData?.companyId?._id)
+                .filter(
+                  (job) =>
+                    job._id !== jobData?._id &&
+                    job?.companyId?._id === jobData?.companyId?._id
+                )
                 .slice(0, 2)
                 .map((job, index) => (
                   <JobCard key={index} job={job} />
@@ -172,7 +210,10 @@ const ApplyJob = () => {
           {/* Discussion Section */}
           <div className="mt-10 text-center bg-gray-100 p-6 rounded-lg shadow">
             <h2 className="font-semibold text-xl mb-4">Discussion Forum</h2>
-            <p className="mb-4">Ask questions or discuss this job opportunity anonymously with others.</p>
+            <p className="mb-4">
+              Ask questions or discuss this job opportunity anonymously with
+              others.
+            </p>
             <button
               onClick={handleDiscussion}
               className="bg-green-600 text-white px-5 py-2 rounded-lg"

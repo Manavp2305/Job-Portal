@@ -15,6 +15,7 @@ const generateToken = (userId) => {
   return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "1h" });
 };
 
+// Register User and Send OTP
 export const registerUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -29,8 +30,9 @@ export const registerUser = async (req, res) => {
     if (user && user.isVerified) {
       return res.status(400).json({ message: "Email already in use" });
     }
+
     const otp = Math.floor(1000 + Math.random() * 9000).toString();
-    const otpExpires = moment().add(5, "minutes").toDate(); 
+    const otpExpires = moment().add(5, "minutes").toDate();
 
     if (user) {
       user.otp = otp;
@@ -56,6 +58,8 @@ export const registerUser = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+// Verify OTP for User
 export const verifyOtp = async (req, res) => {
   const { email, otp } = req.body;
   console.log("🔍 Incoming email:", email, "OTP:", otp); // Debug
@@ -90,7 +94,7 @@ export const verifyOtp = async (req, res) => {
   }
 };
 
-
+// Resend OTP if needed
 export const resendOtp = async (req, res) => {
   const { email } = req.body;
 
@@ -115,6 +119,8 @@ export const resendOtp = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+// User Login
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -128,6 +134,7 @@ export const loginUser = async (req, res) => {
     if (!user.isVerified) {
       return res.status(400).json({ message: "Please verify your email before logging in." });
     }
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
@@ -141,6 +148,8 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+// Protect route with JWT token
 export const protect = async (req, res, next) => {
   const token = req.header("Authorization");
 
@@ -155,5 +164,18 @@ export const protect = async (req, res, next) => {
   } catch (error) {
     console.error(" Token Error:", error.message);
     res.status(401).json({ message: "Invalid token" });
+  }
+};
+
+// Logout User (JWT is stateless, so no actual action needed here)
+export const logoutUser = async (req, res) => {
+  try {
+    // Since JWTs are stateless, the backend doesn't need to do much.
+    // However, if you're maintaining a blacklist or session store, you can invalidate the token here.
+
+    res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    console.error("Logout Error:", error.message);
+    res.status(500).json({ message: "Server error" });
   }
 };
