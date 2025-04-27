@@ -7,13 +7,16 @@ import moment from "moment";
 const Applications = () => {
   const { applications } = useContext(AppContext);
 
+  // Ensure applications is always an array
+  const safeApplications = applications || [];
+
   return (
     <>
       <Navbar />
       <div className="container mx-auto my-10 px-4">
         <h2 className="text-2xl font-bold mb-6">Your Job Applications</h2>
 
-        {applications.length > 0 ? (
+        {safeApplications.length > 0 ? (
           <table className="w-full bg-white border rounded-lg">
             <thead>
               <tr>
@@ -25,7 +28,7 @@ const Applications = () => {
               </tr>
             </thead>
             <tbody>
-              {applications.map((job, index) => (
+              {safeApplications.map((job, index) => (
                 <tr key={index}>
                   <td className="py-3 px-4 border-b">{job.company}</td>
                   <td className="py-2 px-4 border-b">{job.title}</td>

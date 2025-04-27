@@ -18,6 +18,7 @@ const Navbar = () => {
   const [isOTPVerification, setIsOTPVerification] = useState(false);
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [otpError, setOtpError] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // To track login status
 
   const otpRefs = useRef([]);
 
@@ -75,6 +76,7 @@ const Navbar = () => {
       if (!isSignUp) {
         localStorage.setItem("authToken", data.token);
         localStorage.setItem("userRole", isRecruiter ? "recruiter" : "user");
+        setIsLoggedIn(true); // Mark the user as logged in
         handleClose();
       } else {
         setIsOTPVerification(true);
@@ -105,7 +107,7 @@ const Navbar = () => {
 
       localStorage.setItem("authToken", data.token);
       localStorage.setItem("userRole", "user");
-
+      setIsLoggedIn(true); // Mark the user as logged in
       alert("OTP Verified! Sign Up Complete.");
       handleClose();
     } catch (err) {
@@ -131,6 +133,14 @@ const Navbar = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userRole");
+    setIsLoggedIn(false); // Mark the user as logged out
+    alert("Logged out successfully");
+    navigate("/"); // Redirect to the homepage after logout
+  };
+
   return (
     <div className="shadow py-4 bg-white">
       <div className="container mx-auto flex justify-between items-center px-8">
@@ -142,8 +152,20 @@ const Navbar = () => {
           <FaUser className="ml-10 cursor-pointer text-3xl text-gray-700" onClick={() => setShowDropdown(!showDropdown)} />
           {showDropdown && (
             <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2">
-              <button className="block w-full text-left px-4 py-2 hover:bg-gray-100" onClick={() => handleOpen(false)}>User Login</button>
-              <button className="block w-full text-left px-4 py-2 hover:bg-gray-100" onClick={() => handleOpen(true)}>Recruiter Login</button>
+              {!isLoggedIn ? (
+                <>
+                  <button className="block w-full text-left px-4 py-2 hover:bg-gray-100" onClick={() => handleOpen(false)}>
+                    User Login
+                  </button>
+                  <button className="block w-full text-left px-4 py-2 hover:bg-gray-100" onClick={() => handleOpen(true)}>
+                    Recruiter Login
+                  </button>
+                </>
+              ) : (
+                <button className="block w-full text-left px-4 py-2 hover:bg-gray-100" onClick={handleLogout}>
+                  Logout
+                </button>
+              )}
             </div>
           )}
         </div>
@@ -247,29 +269,24 @@ const Navbar = () => {
                   />
                 </div>
 
-                {error && <p className="text-red-500 text-sm">{error}</p>}
+                {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
-                <button type="submit" className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition">
-                  {isSignUp ? "Sign Up" : "Login"}
-                </button>
+                <div className="flex justify-center space-x-4">
+                  <button
+                    type="submit"
+                    className="w-28 py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700"
+                  >
+                    {isSignUp ? "Sign Up" : "Login"}
+                  </button>
 
-                <p className="text-center text-sm text-gray-600 mt-3">
-                  {isSignUp ? (
-                    <>
-                      Already have an account?{" "}
-                      <span className="text-blue-500 cursor-pointer hover:underline" onClick={() => setIsSignUp(false)}>
-                        Log in
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      Don't have an account?{" "}
-                      <span className="text-blue-500 cursor-pointer hover:underline" onClick={() => setIsSignUp(true)}>
-                        Sign Up
-                      </span>
-                    </>
-                  )}
-                </p>
+                  <button
+                    type="button"
+                    className="w-28 py-2 px-4 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                    onClick={() => setIsSignUp(!isSignUp)}
+                  >
+                    {isSignUp ? "Have an account?" : "Need an account?"}
+                  </button>
+                </div>
               </form>
             )}
           </div>

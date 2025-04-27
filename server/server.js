@@ -10,7 +10,7 @@ import { fileURLToPath } from "url";
 import applicationRoutes from "./routes/applicationRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js"; // Add the job routes here
-
+import questionRoutes from "./routes/questionRoutes.js"
 dotenv.config();
 
 const app = express();
@@ -32,7 +32,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/applications", applicationRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/jobs", jobRoutes); // Mount job routes here
-
+app.use("/api/questions", questionRoutes);
 // Default route
 app.get("/", (req, res) => {
   res.send("API is running...");

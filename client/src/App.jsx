@@ -8,8 +8,10 @@ import Dashboard from "./pages/Dashboard";
 import Addjob from "./pages/Addjob";
 import ManageJobs from "./pages/ManageJobs";
 import ViewApplications from "./pages/ViewApplications";
-// import Navbar from "./components/Navbar"; // Uncomment if you have a Navbar component
+// import Navbar from "./components/Navbar"; 
 import "quill/dist/quill.snow.css"; // Ensure Quill's styles are imported for the editor
+import AnswerPage from "./pages/AnswerPage";
+import DiscussionForum from "./pages/DiscussionForum";
 
 const App = () => {
   return (
@@ -24,7 +26,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/apply-job/:id" element={<ApplyJob />} />
           <Route path="/applications" element={<Applications />} />
-          
+          <Route path="/discussion-forum" element={<DiscussionForum />} />
           {/* Protected Routes (Dashboard, Add Job, Manage Jobs, View Applications) */}
           <Route path="/dashboard" element={<Dashboard />}>
             {/* Nested routes under dashboard */}

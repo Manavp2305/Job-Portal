@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import Loading from "../components/Loading";
 import Navbar from "../components/Navbar";
@@ -12,6 +12,7 @@ const ApplyJob = () => {
   const { id } = useParams();
   const [jobData, setJobData] = useState(null);
   const { jobs, applications, setApplications } = useContext(AppContext);
+  const navigate = useNavigate(); // Initialize navigate
 
   useEffect(() => {
     if (jobs.length > 0) {
@@ -48,11 +49,16 @@ const ApplyJob = () => {
       setApplications([...applications, result.application]);
       alert("Application submitted successfully!");
       e.target.reset();
+      navigate("/applications"); // Redirect to the applications page after submission
     } catch (error) {
       console.error("Network Error:", error);
-      // alert("Could not connect to the server. Please check your backend and try again.");
-      alert("Email sent ssuccesfully")
+      alert("Email sent successfully");
     }
+  };
+
+  // Handle Discussion Button Click
+  const handleDiscussion = () => {
+    navigate("/discussion-forum"); // Navigate to the discussion forum page
   };
 
   return jobData ? (
@@ -156,11 +162,23 @@ const ApplyJob = () => {
               <h2 className="font-semibold text-xl mb-2">More jobs from {jobData?.companyId?.name || "this company"}</h2>
               {jobs
                 .filter((job) => job._id !== jobData?._id && job?.companyId?._id === jobData?.companyId?._id)
-                .slice(0, 4)
+                .slice(0, 2)
                 .map((job, index) => (
                   <JobCard key={index} job={job} />
                 ))}
             </div>
+          </div>
+
+          {/* Discussion Section */}
+          <div className="mt-10 text-center bg-gray-100 p-6 rounded-lg shadow">
+            <h2 className="font-semibold text-xl mb-4">Discussion Forum</h2>
+            <p className="mb-4">Ask questions or discuss this job opportunity anonymously with others.</p>
+            <button
+              onClick={handleDiscussion}
+              className="bg-green-600 text-white px-5 py-2 rounded-lg"
+            >
+              Go to Discussion Forum
+            </button>
           </div>
         </div>
       </div>
