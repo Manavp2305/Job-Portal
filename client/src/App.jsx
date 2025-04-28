@@ -26,7 +26,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/apply-job/:id" element={<ApplyJob />} />
           <Route path="/applications" element={<Applications />} />
-          <Route path="/discussion-forum" element={<DiscussionForum />} />
+          <Route path="/discussion-forum/:questionId" element={<DiscussionForum />} />
           {/* Protected Routes (Dashboard, Add Job, Manage Jobs, View Applications) */}
           <Route path="/dashboard" element={<Dashboard />}>
             {/* Nested routes under dashboard */}

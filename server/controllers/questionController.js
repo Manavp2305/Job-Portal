@@ -51,3 +51,17 @@ export const answerQuestion = async (req, res) => {
     res.status(500).json({ message: "Error answering question" });
   }
 };
+
+export const getQuestionById = async (req, res) => {
+  const { questionId } = req.params;
+
+  try {
+    const question = await Question.findById(questionId);
+    if (!question) {
+      return res.status(404).json({ message: "Question not found" });
+    }
+    res.json(question);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

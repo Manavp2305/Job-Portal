@@ -60,9 +60,8 @@ const ApplyJob = () => {
 
   // Handle Discussion Button Click
   const handleDiscussion = () => {
-    navigate("/discussion-forum"); // Navigate to the discussion forum page
+    navigate(`/discussion-forum/${id}`);
   };
-
   return jobData ? (
     <>
       <Navbar />
@@ -126,67 +125,70 @@ const ApplyJob = () => {
               <p>{jobData?.description || "No job description available."}</p>
 
               <form
-  onSubmit={handleApply}
-  className="mt-10 bg-gray-100 p-6 rounded-lg shadow"
-  encType="multipart/form-data"
->
-  <h2 className="text-xl font-semibold mb-4">Apply for this Job</h2>
-  
-  {/* Form Fields */}
-  <div className="mb-4">
-    <label className="block text-gray-700">Full Name</label>
-    <input
-      type="text"
-      name="name"
-      required
-      className="w-full px-3 py-2 border rounded-lg"
-      placeholder="Enter your full name"
-    />
-  </div>
-  
-  <div className="mb-4">
-    <label className="block text-gray-700">Email</label>
-    <input
-      type="email"
-      name="email"
-      required
-      className="w-full px-3 py-2 border rounded-lg"
-      placeholder="Enter your email"
-    />
-  </div>
-  
-  <div className="mb-4">
-    <label className="block text-gray-700">Resume (PDF only)</label>
-    <input
-      type="file"
-      name="resume"
-      required
-      accept="application/pdf"
-      className="w-full px-3 py-2 border rounded-lg"
-    />
-  </div>
+                onSubmit={handleApply}
+                className="mt-10 bg-gray-100 p-6 rounded-lg shadow"
+                encType="multipart/form-data"
+              >
+                <h2 className="text-xl font-semibold mb-4">
+                  Apply for this Job
+                </h2>
 
-  {/* Button Group */}
-  <div className="flex gap-4 mt-4">
-    {/* Submit Application Button */}
-    <button
-      type="submit"
-      className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold w-full md:w-auto hover:bg-blue-700 transition duration-300"
-    >
-      Submit Application
-    </button>
+                {/* Form Fields */}
+                <div className="mb-4">
+                  <label className="block text-gray-700">Full Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    className="w-full px-3 py-2 border rounded-lg"
+                    placeholder="Enter your full name"
+                  />
+                </div>
 
-    {/* View Application Button */}
-    <button
-      type="button"
-      onClick={() => navigate("/applications")}
-      className="bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold w-full md:w-auto hover:bg-gray-700 transition duration-300"
-    >
-      View Application
-    </button>
-  </div>
-</form>
+                <div className="mb-4">
+                  <label className="block text-gray-700">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    className="w-full px-3 py-2 border rounded-lg"
+                    placeholder="Enter your email"
+                  />
+                </div>
 
+                <div className="mb-4">
+                  <label className="block text-gray-700">
+                    Resume (PDF only)
+                  </label>
+                  <input
+                    type="file"
+                    name="resume"
+                    required
+                    accept="application/pdf"
+                    className="w-full px-3 py-2 border rounded-lg"
+                  />
+                </div>
+
+                {/* Button Group */}
+                <div className="flex gap-4 mt-4">
+                  {/* Submit Application Button */}
+                  <button
+                    type="submit"
+                    className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold w-full md:w-auto hover:bg-blue-700 transition duration-300"
+                  >
+                    Submit Application
+                  </button>
+
+                  {/* View Application Button */}
+                  <button
+                    type="button"
+                    onClick={() => navigate("/applications")}
+                    className="bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold w-full md:w-auto hover:bg-gray-700 transition duration-300"
+                  >
+                    View Application
+                  </button>
+                </div>
+              </form>
             </div>
 
             {/* Other Jobs */}
@@ -219,6 +221,28 @@ const ApplyJob = () => {
               className="bg-green-600 text-white px-5 py-2 rounded-lg"
             >
               Go to Discussion Forum
+            </button>
+          </div>
+          {/* resume anyalyze */}
+          <div className="mt-10 text-center bg-gray-100 p-6 rounded-lg shadow">
+            <h2 className="font-semibold text-xl mb-4">
+              Boost Your Career with Smart Resume Analysis
+            </h2>
+            <p className="mb-4">
+              Get instant, AI-powered feedback to make your resume stand out and
+              land your dream job faster.
+            </p>
+            <button
+              onClick={() =>
+                window.open(
+                  "http://localhost:8501/",
+                  "_blank",
+                  "noopener,noreferrer"
+                )
+              }
+              className="bg-green-600 text-white px-5 py-2 rounded-lg"
+            >
+              Resume Analyze
             </button>
           </div>
         </div>

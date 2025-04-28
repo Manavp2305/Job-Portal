@@ -4,6 +4,7 @@ import moment from "moment";
 import Navbar from "../components/Navbar";
 import { FaUserCircle } from "react-icons/fa";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const DiscussionForum = () => {
   const navigate = useNavigate();
@@ -14,13 +15,18 @@ const DiscussionForum = () => {
   const [error, setError] = useState("");
 
   // Fetch questions on component mount
+  const { jobId } = useParams();
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
         const response = await axios.get("/api/questions");
-        console.log("Fetched questions:", response.data); // Log to verify the format
+        console.log("Fetched questions:", response.data);
+    
         if (Array.isArray(response.data)) {
-          setDiscussion(response.data);
+          const filteredQuestions = response.data.filter(
+            (q) => q.jobId === jobId
+          );
+          setDiscussion(filteredQuestions);
         } else {
           setError("Unexpected data format received.");
         }
@@ -31,6 +37,7 @@ const DiscussionForum = () => {
         setLoading(false);
       }
     };
+    
 
     fetchQuestions();
   }, []);
@@ -47,8 +54,10 @@ const DiscussionForum = () => {
       const newQuestion = {
         question,
         name: "Anonymous",
-        timestamp: new Date().toISOString(), // Ensure timestamp is in ISO format
+        timestamp: new Date().toISOString(),
+        jobId: jobId, // attach jobId
       };
+      
 
       const response = await axios.post("/api/questions", newQuestion);
       if (response.data) {
