@@ -185,7 +185,7 @@ const Navbar = () => {
 
       {showPopup && (
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-md z-40">
-          <div className={`relative w-[500px] bg-white shadow-2xl rounded-xl p-6 transition-all duration-500 ease-in-out transform ${isClosing ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"}`}>
+          <div className={`relative w-[550px] bg-white shadow-2xl rounded-xl p-6 transition-all duration-500 ease-in-out transform ${isClosing ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"}`}>
             <button className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-2xl" onClick={handleClose}>
               <IoClose />
             </button>

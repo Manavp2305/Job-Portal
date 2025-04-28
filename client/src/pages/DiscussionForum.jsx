@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import { FaUserCircle } from "react-icons/fa";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Footer from "../components/Footer";
 
 const DiscussionForum = () => {
   const navigate = useNavigate();
@@ -179,6 +180,7 @@ const DiscussionForum = () => {
           </form>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
