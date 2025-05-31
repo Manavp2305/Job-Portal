@@ -9,6 +9,8 @@ const createJob = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
+    const currentDate = new Date();
+
     const newJob = new Job({
       title,
       location,
